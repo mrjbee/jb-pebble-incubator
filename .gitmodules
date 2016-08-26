@@ -1,0 +1,12 @@
+[submodule "scripts"]
+	path = scripts
+	url = https://github.com/mrjbee/jb-shared-build-scripts.git
+[submodule "buildSrc"]
+	path = buildSrc
+	url = https://github.com/mrjbee/jb-shared-build-scripts.git
+[submodule "watchapp/shared_c"]
+	path = watchapp/shared_c
+	url = https://github.com/mrjbee/jb-pebble-incubator.git
+[submodule "jetpack"]
+	path = jetpack
+	url = https://github.com/mrjbee/jb-android-jetpack.git

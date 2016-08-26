@@ -1,0 +1,4 @@
+include ':app'
+include ':watchapp'
+ext."jetpack-embedded" = true
+apply from: "jetpack/settings.gradle"
