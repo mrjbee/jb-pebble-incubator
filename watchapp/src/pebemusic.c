@@ -1,5 +1,5 @@
 #include <pebble.h>
-#include "../shared/connection.h"
+#include "../shared_c/connection.h"
 #include "playlists.h"
 
 enum {

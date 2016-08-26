@@ -4,3 +4,6 @@
 [submodule "buildSrc"]
 	path = buildSrc
 	url = https://github.com/mrjbee/jb-shared-build-scripts.git
+[submodule "watchapp/shared_c"]
+	path = watchapp/shared_c
+	url = https://github.com/mrjbee/jb-pebble-incubator.git
