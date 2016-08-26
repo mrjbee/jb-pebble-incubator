@@ -5,17 +5,13 @@
 #include <pebble.h>
 
 enum {
-    KEY_STATUS = 0,
-    KEY_VERSION = 1,
-    KEY_EVENT_TYPE=3,
-    KEY_PLAYLIST_ID=4,
-    KEY_PLAYLIST_NAME=5
+    KEY_SYSTEM_STATUS = 0,
+    KEY_SYSTEM_VERSION = 1,
+    KEY_SYSTEM_EVENT_TYPE=3,
 };
 
 enum {
-    EVENT_TYPE_VERSION = 0,
-    EVENT_TYPE_PLAYLIST_UPDATED = 1,
-    EVENT_TYPE_PLAYLIST_PLAY = 2,
+    EVENT_SYSTEM_TYPE_VERSION = 0,
 };
 
 typedef DictionaryResult (*SendAction)(DictionaryIterator *iterator);

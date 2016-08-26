@@ -2,6 +2,16 @@
 #include "../shared/connection.h"
 #include "playlists.h"
 
+enum {
+    KEY_PLAYLIST_ID=4,
+    KEY_PLAYLIST_NAME=5
+};
+
+enum {
+    EVENT_TYPE_PLAYLIST_UPDATED = 1,
+    EVENT_TYPE_PLAYLIST_PLAY = 2,
+};
+
 static Window *s_window;
 static TextLayer *text_layer_playlist_title;
 static TextLayer *text_layer_playlist_caption;
@@ -16,7 +26,7 @@ void text_layer_playlist_caption_init(Layer *window_layer, GRect *bounds);
 
 
 static DictionaryResult sendCurrentPlaylistId(DictionaryIterator *iterator) {
-    dict_write_int8(iterator, KEY_EVENT_TYPE, EVENT_TYPE_PLAYLIST_PLAY);
+    dict_write_int8(iterator, KEY_SYSTEM_EVENT_TYPE, EVENT_TYPE_PLAYLIST_PLAY);
     return dict_write_cstring(iterator, KEY_PLAYLIST_ID, currentPlaylist()->id);
 }
 

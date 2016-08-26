@@ -10,8 +10,8 @@ static bool isDictionaryResultOk(DictionaryResult *result) { return (*result) !=
 static bool isMessageResultNotOk(AppMessageResult *messageResult) { return (*messageResult) != APP_MSG_OK; }
 
 static DictionaryResult sendVersionAction(DictionaryIterator *iterator) {
-    dict_write_int8(iterator, KEY_EVENT_TYPE, EVENT_TYPE_VERSION);
-    return dict_write_cstring(iterator, KEY_VERSION, "1.0");
+    dict_write_int8(iterator, KEY_SYSTEM_EVENT_TYPE, EVENT_SYSTEM_TYPE_VERSION);
+    return dict_write_cstring(iterator, KEY_SYSTEM_VERSION, "1.0");
 }
 
 
@@ -24,14 +24,14 @@ static void outbox_failed_handler(DictionaryIterator *iter, AppMessageResult rea
 
 
 static void inbox_received_handler(DictionaryIterator *iterator, void *context){
-    Tuple *statusTuple = dict_find(iterator, KEY_STATUS);
+    Tuple *statusTuple = dict_find(iterator, KEY_SYSTEM_STATUS);
     if(statusTuple) {
         // This value was stored as JS Number, which is stored here as int32_t
         int32_t status = statusTuple->value->int32;
         APP_LOG(APP_LOG_LEVEL_INFO, "Application intialized with status: %d", (int)status);
         publish("versionMessage", sendVersionAction);
     } else {
-        Tuple *tuple = dict_find(iterator, KEY_EVENT_TYPE);
+        Tuple *tuple = dict_find(iterator, KEY_SYSTEM_EVENT_TYPE);
         if (tuple){
             int32_t event = tuple->value->int32;
             SUBSCRIBER(event, iterator);
