@@ -1,2 +1,1 @@
-# jb-pebble-incubator
-Incubator for android-pebble apps
+This branch contains shared *.C (and *.h) files 
