@@ -12,10 +12,17 @@ buildscript {
     }
 }
 
+ext.pebblePhoneIP="192.168.0.4"
+ext.pebbleTool="pebble"
+
 allprojects {
     repositories {
         jcenter()
         maven { url "https://oss.sonatype.org/content/groups/public/" }
+    }
+
+    if ("watchapp".equals(project.name)){
+        apply from:"../scripts/pebble.gradle"
     }
 }
 
