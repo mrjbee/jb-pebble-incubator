@@ -1,5 +1,5 @@
 #include <pebble.h>
-#include "connection.h"
+#include "../shared/connection.h"
 #include "playlists.h"
 
 static Window *s_window;
