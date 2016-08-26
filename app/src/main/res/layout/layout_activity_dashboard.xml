@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="org.monroe.team.pebemusic.Dashboard">
+
+    <Space
+        android:id="@+id/anchor_center"
+        android:layout_width="1px"
+        android:layout_height="1px"
+        android:layout_centerInParent="true"
+    />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_above="@+id/anchor_center"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        >
+
+        <TextView
+            android:layout_above="@+id/anchor_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="40sp"
+            android:text="Pebe"
+            android:textColor="@color/colorAccent"
+            android:id="@+id/text_caption_first_part" />
+
+        <TextView
+            android:layout_marginLeft="5dp"
+            android:layout_above="@+id/anchor_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="40sp"
+            android:text="Music"
+            android:textStyle="bold"
+            android:textColor="@color/colorTextMain"
+            android:id="@+id/text_caption_second_part" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_below="@+id/anchor_center"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        >
+
+        <Switch
+            android:id="@+id/switch_service"
+            android:textSize="20sp"
+            android:layout_below="@+id/anchor_center"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:textColor="@color/colorTextMain"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginLeft="5dp"
+            android:layout_above="@+id/anchor_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Notification"
+            android:textColor="@color/colorTextMain"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>
