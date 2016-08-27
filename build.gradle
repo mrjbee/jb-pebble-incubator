@@ -29,3 +29,8 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+task full(){
+    dependsOn project("app").getTasksByName("installDebug", false)[0],
+            project("watchapp").getTasksByName("install", false)[0]
+}
