@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.getpebble.android.kit.PebbleKit;
 import com.getpebble.android.kit.util.PebbleDictionary;
 
-import org.monroe.team.pebble.MessageProducer;
+import org.monroe.team.android.jetpack.pebble.MessageProducer;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -2,7 +2,7 @@ package org.monroe.team.pebemusic;
 
 import com.getpebble.android.kit.util.PebbleDictionary;
 
-import org.monroe.team.pebble.AbstractMessageSubscriber;
+import org.monroe.team.android.jetpack.pebble.AbstractMessageSubscriber;
 
 public class PebeMessageSubscriber extends AbstractMessageSubscriber {
 
