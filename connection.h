@@ -5,7 +5,6 @@
 #include <pebble.h>
 
 enum {
-    KEY_SYSTEM_STATUS = 0,
     KEY_SYSTEM_VERSION = 1,
     KEY_SYSTEM_EVENT_TYPE=3,
 };
