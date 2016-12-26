@@ -1,0 +1,54 @@
+{
+  "version": "1.0.0",
+  "author": "MonroeTeam",
+  "private": true,
+  "dependencies": {},
+  "keywords": [
+    "pebble-app"
+  ],
+  "pebble": {
+    "sdkVersion": "3",
+    "resources": {
+      "media": [
+        {
+          "menuIcon": true,
+          "type": "bitmap",
+          "name": "MENU_ICON",
+          "file": "images/app.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_NEXT",
+          "file": "images/next.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_PREV",
+          "file": "images/prev.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_PLAY",
+          "file": "images/play.png"
+        }
+      ]
+    },
+    "projectType": "native",
+    "uuid": "dc7955e1-310b-4062-b03d-73670048edfa",
+    "messageKeys": {
+      "status": 0
+    },
+    "enableMultiJS": false,
+    "displayName": "Pebe Music Extension",
+    "watchapp": {
+      "onlyShownOnCommunication": false,
+      "hiddenApp": false,
+      "watchface": false
+    },
+    "targetPlatforms": [
+      "aplite"
+    ],
+    "capabilities": []
+  },
+  "name": "PeBe Music"
+}

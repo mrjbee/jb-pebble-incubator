@@ -239,6 +239,10 @@ public class App extends Application {
 
     }
 
+    public void open(){
+        PebbleKit.startAppOnPebble(this, UUID.fromString("1f03293d-47af-4f28-b960-f2b02a6dd757"));
+    }
+
     public static class Playlist {
 
         public final String id;

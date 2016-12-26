@@ -10,6 +10,7 @@ enum {
 enum {
     EVENT_TYPE_PLAYLIST_UPDATED = 1,
     EVENT_TYPE_PLAYLIST_PLAY = 2,
+    EVENT_TYPE_OPEN_PLAYER = 3,
 };
 
 static Window *s_window;
@@ -25,11 +26,14 @@ void text_layer_playlist_title_init(Layer *window_layer, GRect *bounds);
 void text_layer_playlist_caption_init(Layer *window_layer, GRect *bounds);
 
 
-static DictionaryResult sendCurrentPlaylistId(DictionaryIterator *iterator) {
+static DictionaryResult action_PlayPlaylistId(DictionaryIterator *iterator) {
     dict_write_int8(iterator, KEY_SYSTEM_EVENT_TYPE, EVENT_TYPE_PLAYLIST_PLAY);
     return dict_write_cstring(iterator, KEY_PLAYLIST_ID, currentPlaylist()->id);
 }
 
+static DictionaryResult action_OpenPlayApp(DictionaryIterator *iterator) {
+    return dict_write_int8(iterator, KEY_SYSTEM_EVENT_TYPE, EVENT_TYPE_OPEN_PLAYER);
+}
 
 static void update_playlist_UI(){
     Playlist_t* current = currentPlaylist();
@@ -42,7 +46,7 @@ static void update_playlist_UI(){
 
 static void btn_select(ClickRecognizerRef recognizer, void *context) {
       if (currentPlaylist() != NULL){
-        publish("play",sendCurrentPlaylistId);
+        publish("play",action_PlayPlaylistId);
         //window_stack_pop_all(true);
       }
 }
@@ -51,6 +55,10 @@ static void btn_up(ClickRecognizerRef recognizer, void *context) {
     if (prevPlaylist() != NULL){
         update_playlist_UI();
     }
+}
+
+static void btn_up_long(ClickRecognizerRef recognizer, void *context) {
+    publish("open_player", action_OpenPlayApp);
 }
 
 static void btn_down(ClickRecognizerRef recognizer, void *context) {
@@ -63,6 +71,7 @@ static void btn_config_provider(void *context) {
     window_single_click_subscribe(BUTTON_ID_SELECT, btn_select);
     window_single_click_subscribe(BUTTON_ID_UP, btn_up);
     window_single_click_subscribe(BUTTON_ID_DOWN, btn_down);
+    window_long_click_subscribe(BUTTON_ID_UP, 200, btn_up_long, NULL);
 }
 
 
@@ -157,9 +166,8 @@ static void on_message(int event, DictionaryIterator *iterator){
 
 
 int main(void) {
-    initializeAppMessage(on_message);
     init();
-    countPlaylist();
+    initializeAppMessage(on_message);
     app_event_loop();
     deinit();
 }

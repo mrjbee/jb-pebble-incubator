@@ -23,6 +23,12 @@ public class PebeMessageSubscriber extends AbstractMessageSubscriber {
                         String playlistId = dictionary.getString(Constants.KEY_PLAYLIST_ID);
                         App.getInstance().play(playlistId);
                     }
+                },
+                new AbstractMessageHandler(Constants.EVENT_TYPE_OPEN_PLAYER){
+                    @Override
+                    public void onMessage(int messageType, PebbleDictionary dictionary) {
+                        App.getInstance().open();
+                    }
                 });
     }
 

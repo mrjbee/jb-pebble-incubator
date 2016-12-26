@@ -12,6 +12,7 @@ public class Constants {
 
     public static final int EVENT_TYPE_VERSION = 0,
                 EVENT_TYPE_PLAYLIST_UPDATED = 1,
-                EVENT_TYPE_PLAYLIST_PLAY = 2;
+                EVENT_TYPE_PLAYLIST_PLAY = 2,
+                EVENT_TYPE_OPEN_PLAYER = 3;
 
 }
