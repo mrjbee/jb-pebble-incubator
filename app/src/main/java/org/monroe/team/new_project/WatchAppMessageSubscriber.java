@@ -12,7 +12,7 @@ public class WatchAppMessageSubscriber extends AbstractMessageSubscriber {
         super(
                 Constants.WATCHAPP_UUID,
                 Constants.KEY_EVENT_TYPE,
-                new AbstractMessageHandler(Constants.EVENT_TYPE_VERSION) {
+                new AbstractMessageHandler(Constants.EVENT_SYSTEM_TYPE_VERSION) {
                     @Override
                     public void onMessage(int messageType, PebbleDictionary dictionary) {
                         String watchAppVersion = dictionary.getString(Constants.KEY_VERSION);

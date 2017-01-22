@@ -1,0 +1,39 @@
+{
+  "version": "1.0.0",
+  "author": "MonroeTeam",
+  "private": true,
+  "dependencies": {},
+  "keywords": [
+    "pebble-app"
+  ],
+  "pebble": {
+    "sdkVersion": "3",
+    "resources": {
+      "media": [
+        {
+          "menuIcon": true,
+          "type": "bitmap",
+          "name": "MENU_ICON",
+          "file": "images/app.png"
+        }
+      ]
+    },
+    "projectType": "native",
+    "uuid": "dc7955e1-310b-4062-b03d-73670048edaa",
+    "messageKeys": {
+      "status": 0
+    },
+    "enableMultiJS": false,
+    "displayName": "PBbe Test Extension",
+    "watchapp": {
+      "onlyShownOnCommunication": false,
+      "hiddenApp": false,
+      "watchface": false
+    },
+    "targetPlatforms": [
+      "aplite"
+    ],
+    "capabilities": []
+  },
+  "name": "PeBe Test"
+}

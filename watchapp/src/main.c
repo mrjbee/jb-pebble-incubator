@@ -5,16 +5,13 @@ static Window *s_window;
 static TextLayer *text_layer_playlist_title;
 
 
-// Publish message example
-//enum {
-//    KEY_PLAYLIST_ID=4,
-//    KEY_PLAYLIST_NAME=5
-//};
+enum {
+    KEY_TEST_TEXT=4,
+};
 
-//enum {
-//    EVENT_TYPE_PLAYLIST_UPDATED = 1,
-//    EVENT_TYPE_PLAYLIST_PLAY = 2,
-//};
+enum {
+    EVENT_TYPE_TEST = 1,
+};
 
 
 //static DictionaryResult sendCurrentPlaylistId(DictionaryIterator *iterator) {
@@ -27,8 +24,14 @@ static TextLayer *text_layer_playlist_title;
 //}
 
 
+static DictionaryResult message_Test(DictionaryIterator *iterator) {
+    dict_write_int8(iterator, KEY_SYSTEM_EVENT_TYPE, EVENT_TYPE_TEST);
+    return dict_write_cstring(iterator, KEY_TEST_TEXT, "Hello World");
+}
+
 
 static void btn_select(ClickRecognizerRef recognizer, void *context) {
+    publish("test", message_Test);
 }
 
 static void btn_up(ClickRecognizerRef recognizer, void *context) {
@@ -111,7 +114,6 @@ static void init(void) {
 
 
 int main(void) {
-    initializeAppMessage(on_message);
     init();
     app_event_loop();
     deinit();
