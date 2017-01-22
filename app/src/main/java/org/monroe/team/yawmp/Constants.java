@@ -13,7 +13,8 @@ public class Constants {
     public static final int EVENT_SYSTEM_TYPE_VERSION = 0,
                             EVENT_TYPE_AGENT_STATUS_GET = 10,
                             EVENT_TYPE_AGENT_STATUS_UPDATE =11,
-                            EVENT_TYPE_AGENT_STATUS_CONTROL =12;
+                            EVENT_TYPE_AGENT_STATUS_CONTROL =12,
+                            EVENT_TYPE_AGENT_ALARM =13;
 
     public static final int VALUE_AGENT_ACTIVATE_ON = 1,
                             VALUE_AGENT_ACTIVATE_OFF = 2;

@@ -19,10 +19,12 @@ enum {
     EVENT_TYPE_TEST = 1,
     EVENT_TYPE_AGENT_STATUS_GET = 10,
     EVENT_TYPE_AGENT_STATUS_UPDATE =11,
-    EVENT_TYPE_AGENT_STATUS_CONTROL =12
+    EVENT_TYPE_AGENT_STATUS_CONTROL =12,
+    EVENT_TYPE_AGENT_ALARM =13
 };
 
 static int agentActivated = VALUE_AGENT_ACTIVATE_UNDEFINED;
+static const uint32_t const segments[] = { 100, 200, 200, 100, 200, 100, 1000 };
 
 //static DictionaryResult sendCurrentPlaylistId(DictionaryIterator *iterator) {
 //    dict_write_int8(iterator, KEY_SYSTEM_EVENT_TYPE, EVENT_TYPE_PLAYLIST_PLAY);
@@ -118,12 +120,19 @@ static void deinit(void) {
     window_destroy(s_window);
 }
 
+
 static void on_message(int event, DictionaryIterator *iterator){
     if (event == EVENT_TYPE_AGENT_STATUS_UPDATE){
         char* agent_status_src = dict_find(iterator, KEY_AGENT_STATUS)->value->cstring;
         APP_LOG(APP_LOG_LEVEL_DEBUG, "Agent status string = [%s]", agent_status_src);
         text_layer_set_text(text_layer_playlist_title, agent_status_src);
         agentActivated = dict_find(iterator, KEY_AGENT_ACTIVE)->value->int32;
+    } else if (event  == EVENT_TYPE_AGENT_ALARM) {
+        VibePattern pat = {
+            .durations = segments,
+            .num_segments = ARRAY_LENGTH(segments),
+        };
+        vibes_enqueue_custom_pattern(pat);
     }
 //    char* id = dict_find(iterator, KEY_PLAYLIST_ID)->value->cstring;
 //    char* name = dict_find(iterator, KEY_PLAYLIST_NAME)->value->cstring;
