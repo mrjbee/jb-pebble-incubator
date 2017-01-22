@@ -1,4 +1,4 @@
-package org.monroe.team.new_project;
+package org.monroe.team.yawmp;
 
 import android.app.Application;
 import android.widget.Toast;
@@ -26,7 +26,7 @@ public class App extends Application {
     }
 
     public void showVersionToast(String watchAppVersion) {
-        Toast.makeText(this, "Test Watch App Version:"+watchAppVersion,Toast.LENGTH_LONG)
+        Toast.makeText(this, "YAWMP Version:"+watchAppVersion,Toast.LENGTH_LONG)
                 .show();
     }
 }

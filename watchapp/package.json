@@ -19,12 +19,12 @@
       ]
     },
     "projectType": "native",
-    "uuid": "dc7955e1-310b-4062-b03d-73670048edaa",
+    "uuid": "a6ac390b-3a42-4b50-9e63-c3cf33b34958",
     "messageKeys": {
       "status": 0
     },
     "enableMultiJS": false,
-    "displayName": "PBbe Test Extension",
+    "displayName": "YAWMP",
     "watchapp": {
       "onlyShownOnCommunication": false,
       "hiddenApp": false,
@@ -35,5 +35,5 @@
     ],
     "capabilities": []
   },
-  "name": "PeBe Test"
+  "name": "YAWMP"
 }

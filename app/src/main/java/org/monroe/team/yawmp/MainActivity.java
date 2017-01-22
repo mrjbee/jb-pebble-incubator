@@ -1,4 +1,4 @@
-package org.monroe.team.new_project;
+package org.monroe.team.yawmp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

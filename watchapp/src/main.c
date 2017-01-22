@@ -48,7 +48,7 @@ static void btn_config_provider(void *context) {
 
 void text_layer_playlist_title_init(Layer *window_layer, GRect *bounds) {
     text_layer_playlist_title = text_layer_create(GRect(10, 50, (*bounds).size.w - 20 - ACTION_BAR_WIDTH, (*bounds).size.h - 20 - 40));
-    text_layer_set_text(text_layer_playlist_title, "Test Application");
+    text_layer_set_text(text_layer_playlist_title, "Yeat another watch my phone");
     text_layer_set_overflow_mode(text_layer_playlist_title, GTextOverflowModeWordWrap);
     text_layer_set_text_alignment(text_layer_playlist_title, GTextAlignmentCenter);
     text_layer_set_font(text_layer_playlist_title, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));

@@ -1,10 +1,9 @@
-package org.monroe.team.new_project;
-
-import android.app.Application;
+package org.monroe.team.yawmp;
 
 import com.getpebble.android.kit.util.PebbleDictionary;
 
 import org.monroe.team.android.jetpack.pebble.AbstractMessageSubscriber;
+
 
 public class WatchAppMessageSubscriber extends AbstractMessageSubscriber {
 
