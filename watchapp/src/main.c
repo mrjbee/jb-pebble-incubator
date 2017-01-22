@@ -2,7 +2,8 @@
 #include "../shared_c/connection.h"
 
 static Window *s_window;
-static TextLayer *text_layer_playlist_title;
+static TextLayer *text_layer_main;
+static TextLayer *text_layer_caption;
 
 enum {
     KEY_AGENT_STATUS = 12,
@@ -26,15 +27,6 @@ enum {
 static int agentActivated = VALUE_AGENT_ACTIVATE_UNDEFINED;
 static const uint32_t const segments[] = { 100, 200, 200, 100, 200, 100, 1000 };
 
-//static DictionaryResult sendCurrentPlaylistId(DictionaryIterator *iterator) {
-//    dict_write_int8(iterator, KEY_SYSTEM_EVENT_TYPE, EVENT_TYPE_PLAYLIST_PLAY);
-//    return dict_write_cstring(iterator, KEY_PLAYLIST_ID, currentPlaylist()->id);
-//}
-
-//static void btn_select(ClickRecognizerRef recognizer, void *context) {
-//publish("play",sendCurrentPlaylistId);
-//}
-
 
 static DictionaryResult request_activateAgent(DictionaryIterator *iterator) {
     dict_write_int8(iterator, KEY_SYSTEM_EVENT_TYPE, EVENT_TYPE_AGENT_STATUS_CONTROL);
@@ -51,7 +43,7 @@ static DictionaryResult request_agentStatus(DictionaryIterator *iterator) {
 }
 
 static void btn_select(ClickRecognizerRef recognizer, void *context) {
-    text_layer_set_text(text_layer_playlist_title, "Request agent status ...");
+    text_layer_set_text(text_layer_main, "Request agent status ...");
     publish("activate_agent_details", request_agentStatus);          
 }
 
@@ -59,7 +51,7 @@ static void btn_select(ClickRecognizerRef recognizer, void *context) {
 
 static void btn_up(ClickRecognizerRef recognizer, void *context) {
     if (agentActivated != VALUE_AGENT_ACTIVATE_UNDEFINED){
-        text_layer_set_text(text_layer_playlist_title, "Updating agent ...");
+        text_layer_set_text(text_layer_main, "Updating agent ...");
         if (agentActivated == VALUE_AGENT_ACTIVATE_ON){
             agentActivated = VALUE_AGENT_ACTIVATE_UNDEFINED;
             publish("activate_agent", request_deActivateAgent);      
@@ -79,15 +71,26 @@ static void btn_config_provider(void *context) {
     window_single_click_subscribe(BUTTON_ID_DOWN, btn_down);
 }
 
-void text_layer_playlist_title_init(Layer *window_layer, GRect *bounds) {
-    text_layer_playlist_title = text_layer_create(GRect(10, 50, (*bounds).size.w - 20 - ACTION_BAR_WIDTH, (*bounds).size.h - 20 - 40));
-    text_layer_set_text(text_layer_playlist_title, "Getting agent status ...");
-    text_layer_set_overflow_mode(text_layer_playlist_title, GTextOverflowModeWordWrap);
-    text_layer_set_text_alignment(text_layer_playlist_title, GTextAlignmentCenter);
-    text_layer_set_font(text_layer_playlist_title, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
-    text_layer_set_text_color(text_layer_playlist_title, GColorWhite);
-    text_layer_set_background_color(text_layer_playlist_title, GColorBlack);
-    layer_add_child(window_layer, text_layer_get_layer(text_layer_playlist_title));
+void text_layer_main_init(Layer *window_layer, GRect *bounds) {
+    text_layer_main = text_layer_create(GRect(10, 50, (*bounds).size.w - 20 - ACTION_BAR_WIDTH, (*bounds).size.h - 20 - 40));
+    text_layer_set_text(text_layer_main, "Getting agent status ...");
+    text_layer_set_overflow_mode(text_layer_main, GTextOverflowModeWordWrap);
+    text_layer_set_text_alignment(text_layer_main, GTextAlignmentCenter);
+    text_layer_set_font(text_layer_main, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
+    text_layer_set_text_color(text_layer_main, GColorWhite);
+    text_layer_set_background_color(text_layer_main, GColorBlack);
+    layer_add_child(window_layer, text_layer_get_layer(text_layer_main));
+}
+
+void text_layer_caption_init(Layer *window_layer, GRect *bounds) {
+    text_layer_caption = text_layer_create(GRect(10, 10, (*bounds).size.w - 20 - ACTION_BAR_WIDTH, 40));
+    text_layer_set_text(text_layer_caption, "YAWMP");
+    text_layer_set_overflow_mode(text_layer_caption, GTextOverflowModeWordWrap);
+    text_layer_set_text_alignment(text_layer_caption, GTextAlignmentCenter);
+    text_layer_set_font(text_layer_caption, fonts_get_system_font(FONT_KEY_GOTHIC_18));
+    text_layer_set_text_color(text_layer_caption, GColorWhite);
+    text_layer_set_background_color(text_layer_caption, GColorBlack);
+    layer_add_child(window_layer, text_layer_get_layer(text_layer_caption));
 }
 
 
@@ -97,7 +100,8 @@ static void window_main_load(Window *window) {
     Layer *window_layer = window_get_root_layer(window);
     GRect bounds = layer_get_bounds(window_layer);
 
-    text_layer_playlist_title_init(window_layer, &bounds);
+    text_layer_main_init(window_layer, &bounds);
+    text_layer_caption_init(window_layer, &bounds);
 
     // Set the icons:
     // The loading of the icons is omitted for brevity... See gbitmap_create_with_resource()
@@ -112,7 +116,8 @@ static void window_main_load(Window *window) {
 
 
 static void window_main_unload(Window *window) {
-    text_layer_destroy(text_layer_playlist_title);
+    text_layer_destroy(text_layer_main);
+    text_layer_destroy(text_layer_caption);
 }
 
 
@@ -125,7 +130,7 @@ static void on_message(int event, DictionaryIterator *iterator){
     if (event == EVENT_TYPE_AGENT_STATUS_UPDATE){
         char* agent_status_src = dict_find(iterator, KEY_AGENT_STATUS)->value->cstring;
         APP_LOG(APP_LOG_LEVEL_DEBUG, "Agent status string = [%s]", agent_status_src);
-        text_layer_set_text(text_layer_playlist_title, agent_status_src);
+        text_layer_set_text(text_layer_main, agent_status_src);
         agentActivated = dict_find(iterator, KEY_AGENT_ACTIVE)->value->int32;
     } else if (event  == EVENT_TYPE_AGENT_ALARM) {
         VibePattern pat = {
