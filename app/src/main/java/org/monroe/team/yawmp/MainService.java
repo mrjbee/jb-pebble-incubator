@@ -4,19 +4,28 @@ package org.monroe.team.yawmp;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
-import com.getpebble.android.kit.util.PebbleDictionary;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class MainService extends Service {
 
 
     private int mNotificationId;
+    private SensorManager mSensorManager;
+    private List<SensorEventListener> sensorEventListeners = new ArrayList<>();
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -59,8 +68,71 @@ public class MainService extends Service {
         return new MainServiceBinder(this);
     }
 
-    private void startWatching() {
+    private SensorAlarmRequest lastSensorAlarmRequest;
 
+    public synchronized void publishAlarmRequest(SensorAlarmRequest sensorAlarmRequest){
+        if (lastSensorAlarmRequest != null){
+            if (sensorAlarmRequest.createdAtMs - lastSensorAlarmRequest.createdAtMs > 600){
+                App.get().sendAlarm();
+                lastSensorAlarmRequest = sensorAlarmRequest;
+            }
+        } else {
+            App.get().sendAlarm();
+            lastSensorAlarmRequest = sensorAlarmRequest;
+        }
+    }
+
+    private synchronized void startWatching() {
+
+        if (mSensorManager == null) {
+            mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        }
+
+        try {
+            SensorEventListener eventListener = new SensorEventListener() {
+
+                private SensorValue sensorValue1 = new SensorValue();
+                private SensorValue sensorValue2 = new SensorValue();
+                private SensorValue sensorValue3 = new SensorValue();
+
+                @Override
+                public void onSensorChanged(SensorEvent event) {
+
+                    if (sensorValue1.update(event.values[0]) ||
+                            sensorValue2.update(event.values[1]) ||
+                            sensorValue3.update(event.values[2])) {
+                        //App.APP_LOG.w("Sensor data:" + Arrays.asList(event.values[0], event.values[1], event.values[2]));
+                        publishAlarmRequest(new SensorAlarmRequest());
+                    }
+
+                }
+
+                @Override
+                public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+                }
+            };
+            sensorEventListeners.add(eventListener);
+            mSensorManager.registerListener(
+                    eventListener,
+                    mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION),
+                    SensorManager.SENSOR_DELAY_NORMAL * 3);
+            ;
+        } catch (Exception e) {
+            App.APP_LOG.w("Exception during regitering sensor", e);
+            App.get().stopAppService();
+        }
+    }
+
+    private void stopWatching() {
+        for (SensorEventListener eventListener : sensorEventListeners) {
+            try {
+                mSensorManager.unregisterListener(eventListener);
+            } catch (Exception e) {
+                App.APP_LOG.w("Exception during unregitering sensor event listener = " + eventListener, e);
+            }
+        }
+        sensorEventListeners.clear();
     }
 
     private void kill() {
@@ -69,9 +141,6 @@ public class MainService extends Service {
         stopSelf();
     }
 
-    private void stopWatching() {
-
-    }
 
     public static class MainServiceBinder extends Binder {
 
@@ -97,7 +166,27 @@ public class MainService extends Service {
         }
     }
 
+    private static class SensorValue {
 
+        private Float value = null;
+
+        private synchronized boolean update(float newValue) {
+            if (value == null) {
+                value = newValue;
+                return false;
+            } else {
+                boolean answer = (Math.abs(value - newValue)) > 0.8f;
+                if (answer) {
+                    value = newValue;
+                }
+                return answer;
+            }
+        }
+    }
+
+    private static class SensorAlarmRequest{
+        private final long createdAtMs = System.currentTimeMillis();
+    }
 
 }
 

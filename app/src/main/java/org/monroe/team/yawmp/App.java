@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
@@ -113,9 +114,22 @@ public class App extends Application {
     }
 
     public void sendAlarm() {
-        lastAlarmDate = new Date();
-        publishAgentStatus();
-        sendAlarmImpl(0);
+        PowerManager.WakeLock wakeLock = null;
+
+        try {
+            PowerManager pm = (PowerManager) getApplicationContext().getSystemService(App.POWER_SERVICE);
+            wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK |
+                    PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
+            wakeLock.acquire();
+            lastAlarmDate = new Date();
+            publishAgentStatus();
+            sendAlarmImpl(0);
+
+        }finally {
+            if (wakeLock != null){
+                wakeLock.release();
+            }
+        }
     }
 
     private void sendAlarmImpl(final int tryIndex) {

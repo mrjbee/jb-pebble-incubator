@@ -25,7 +25,7 @@ enum {
 };
 
 static int agentActivated = VALUE_AGENT_ACTIVATE_UNDEFINED;
-static const uint32_t const segments[] = { 100, 200, 200, 100, 200, 100, 1000 };
+static const uint32_t const segments[] = { 200, 100, 200 };
 
 
 static DictionaryResult request_activateAgent(DictionaryIterator *iterator) {
